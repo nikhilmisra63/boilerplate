@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # example-api
 
 [![generator-api](https://img.shields.io/badge/built%20with-generator--api-green.svg)](https://github.com/ndelvalle/generator-api)
@@ -40,3 +41,6 @@ sudo docker run \
 
 
 --------------------------------------------------------------------------------
+=======
+# boilerplate
+>>>>>>> 4a84d3c4a6301e5f37bc2a77b2a1b0ba4a23f0ba
