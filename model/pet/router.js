@@ -5,7 +5,9 @@ const router = new Router();
 router.route("/").post((...args) => controller.create(...args)); // CREATE PET
 router.route("/").get((...args) => controller.findAll(...args)); // FIND ALL PET
 
-router.route("/User").get((...args) => controller.findAllWithUser(...args)); // FIND ALL PETS WITH USER
+router
+  .route("/Customer")
+  .get((...args) => controller.findAllWithCustomer(...args)); // FIND ALL PETS WITH USER
 
 router.route("/:id").put((...args) => controller.Update(...args)); // UPDATE PET BY PET ID
 router.route("/:id").get((...args) => controller.findById(...args)); // FIND PET BY PET ID
@@ -19,7 +21,9 @@ router
   .route("/Name/:name")
   .delete((...args) => controller.deleteByName(...args)); // DELETE PET BY PETNAME
 
-router.route("/User").get((...args) => controller.findAllWithUser(...args)); // FIND ALL PETS WITH USER
-router.route("/User/:id").get((...args) => controller.findOneWithUser(...args)); // FIND ONE PET WITH USER
+router.route("/Customer").get((...args) => controller.findAllWithUser(...args)); // FIND ALL PETS WITH USER
+router
+  .route("/Customer/:id")
+  .get((...args) => controller.findOneWithCustomer(...args)); // FIND ONE PET WITH USER
 
 module.exports = router;

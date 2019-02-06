@@ -1,9 +1,9 @@
 const Facade = require("../../lib/facade");
-const petSchema = require("./schema");
+const customerSchema = require("./schema");
 
-class PetFacade extends Facade {
-  //update by username
-  updateByPetName(body, where) {
+class customerFacade extends Facade {
+  //update by customername
+  updateByCustomerName(body, where) {
     return new Promise((res, rej) => {
       this.Schema.update(body, where)
         .then(result => {
@@ -14,7 +14,8 @@ class PetFacade extends Facade {
         });
     });
   }
-  findByName(where) {
+  //find customer by customername
+  findByCustomerName(where) {
     return new Promise((res, rej) => {
       this.Schema.findAll(where)
         .then(result => {
@@ -25,7 +26,8 @@ class PetFacade extends Facade {
         });
     });
   }
-  deleteByName(where) {
+  // delete customer by customer name
+  deleteByCustomerName(where) {
     return new Promise((res, rej) => {
       this.Schema.destroy(where)
         .then(result => {
@@ -36,7 +38,8 @@ class PetFacade extends Facade {
         });
     });
   }
-  findAllWithCustomer(body) {
+
+  findAllWithPets(body) {
     return new Promise((res, rej) => {
       this.Schema.findAll(body)
         .then(result => {
@@ -47,7 +50,7 @@ class PetFacade extends Facade {
         });
     });
   }
-  findOneWithCustomer(body) {
+  findOneWithPets(body) {
     return new Promise((res, rej) => {
       this.Schema.findOne(body)
         .then(result => {
@@ -60,4 +63,4 @@ class PetFacade extends Facade {
   }
 }
 
-module.exports = new PetFacade(petSchema);
+module.exports = new customerFacade(customerSchema);

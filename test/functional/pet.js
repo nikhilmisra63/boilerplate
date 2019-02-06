@@ -1,5 +1,5 @@
 const data = {
-  username: "nik",
+  customername: "nik",
   firstName: "Nikhil",
   lastName: "Mishra",
   email: "nikhilmisra63@gmail.com",
@@ -8,19 +8,19 @@ const data = {
   phone_number: 8931097382
 };
 
-let userId;
+let customerId;
 
 describe("PET", () => {
   before(async () => {
-    const res = await request.post("/Users").send(data);
-    userId = res.body.id;
-    data.userId = userId;
+    const res = await request.post("/Customers").send(data);
+    customerId = res.body.id;
+    data.customerId = customerId;
   });
 
   const data = {
     name: "cat",
     color: "black",
-    userId
+    customerId
   };
   it("Should be able to create a pet", async () => {
     const res = await request
@@ -49,11 +49,11 @@ describe("PET", () => {
   it("Should be able to delete Pet By ID", async () => {
     const res = await request.delete("/Pets/1").expect(200);
   });
-  it("Should be able to find all Pets with User", async () => {
-    const res = await request.get("/Pets/User").expect(200);
+  it("Should be able to find all Pets with customer", async () => {
+    const res = await request.get("/Pets/customer").expect(200);
   });
-  it("Should be able to find Pets by id with its User", async () => {
-    const res = await request.get("/Pets/User/1").expect(200);
+  it("Should be able to find Pets by id with its customer", async () => {
+    const res = await request.get("/Pets/customer/1").expect(200);
   });
   it("Should be able to list all pet by name", async () => {
     await request.get("/Pets/Name/cat").expect(200);

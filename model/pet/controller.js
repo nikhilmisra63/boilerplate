@@ -3,13 +3,13 @@ const petFacade = require("./facade");
 class PetController {
   //CREATE PET
   async create(req, res, next) {
-    const { name, color, userId } = req.body;
+    const { name, color, customerId } = req.body;
     let Pet;
     try {
       Pet = await petFacade.create({
         name,
         color,
-        userId
+        customerId
       });
     } catch (e) {
       return next(e);
@@ -105,26 +105,27 @@ class PetController {
     }
     res.send("Pet Updated");
   }
-  async findAllWithUser(req, res, next) {
+  // find all pets with customer
+  async findAllWithCustomer(req, res, next) {
     let pets;
     try {
-      pets = await petFacade.findAllWithUser({
+      pets = await petFacade.findAllWithCustomer({
         where: {},
-        include: ["member"]
+        include: ["customer"]
       });
     } catch (e) {
       return next(e);
     }
     res.send(pets);
   }
-  //find User With Pets BY ID
-  async findOneWithUser(req, res, next) {
+  //find  Pets with Customer BY ID
+  async findOneWithCustomer(req, res, next) {
     let pet;
     const { id } = req.params;
     try {
-      pet = await petFacade.findOneWithUser({
+      pet = await petFacade.findOneWithCustomer({
         where: { id },
-        include: ["member"]
+        include: ["customer"]
       });
     } catch (e) {
       return next(e);

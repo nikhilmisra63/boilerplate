@@ -17,7 +17,6 @@ const db = config.get("db");
 
 global.sequelize = new Sequelize(db.database, null, null, db.setting);
 const routes = require("./routes");
-
 const options = {};
 if (process.env.NODE_ENV === "test") options.force = true;
 

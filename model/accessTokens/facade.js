@@ -1,7 +1,7 @@
 const Facade = require("../../lib/facade");
-const userSchema = require("./schema");
-class userFacade extends Facade {
-  signUp(body) {
+const accessTokenSchema = require("./schema");
+class accessTokenFacade extends Facade {
+  create(body) {
     return new Promise((res, rej) => {
       this.Schema.create(body)
         .then(result => {
@@ -12,9 +12,9 @@ class userFacade extends Facade {
         });
     });
   }
-  login(body) {
+  findTempToken(where) {
     return new Promise((res, rej) => {
-      this.Schema.findOne(body)
+      this.Schema.findOne(where)
         .then(result => {
           return res(result);
         })
@@ -23,9 +23,9 @@ class userFacade extends Facade {
         });
     });
   }
-  emailVerfication(body, where) {
+  deleteTempToken(where) {
     return new Promise((res, rej) => {
-      this.Schema.update(body, where)
+      this.Schema.destroy(where)
         .then(result => {
           return res(result);
         })
@@ -36,4 +36,4 @@ class userFacade extends Facade {
   }
 }
 
-module.exports = new userFacade(userSchema);
+module.exports = new accessTokenFacade(accessTokenSchema);

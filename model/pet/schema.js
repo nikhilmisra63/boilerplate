@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 const pet = {
   name: { type: Sequelize.STRING, required: true },
   color: { type: Sequelize.STRING },
-  userId: {
+  customerId: {
     type: Sequelize.BIGINT,
     allowNull: false
   }
@@ -14,5 +14,8 @@ const petSchema = sequelize.define("pet", pet, {
 
 module.exports = petSchema;
 
-const userSchema = require("../user/schema");
-petSchema.belongsTo(userSchema, { foreignKey: "userId", as: "member" });
+const customerSchema = require("../customer/schema");
+petSchema.belongsTo(customerSchema, {
+  foreignKey: "customerId",
+  as: "customer"
+});
