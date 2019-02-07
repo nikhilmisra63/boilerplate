@@ -50,10 +50,10 @@ class UserController {
             userId
           });
           const mailOptions = {
-            from: "<ysdaassgfyrxa5x7@ethereal.email>", // sender address
-            to: user.email, // list of receiver
-            subject: `Email Verfication${token}`, // Subject line
-            text: `Verfication Token ${token}`, // plain text body
+            from: "<ysdaassgfyrxa5x7@ethereal.email>",
+            to: user.email,
+            subject: `Email Verfication${token}`,
+            text: `Verfication Token ${token}`,
             html: `<p>Click <a href=http://localhost:4000/User/ConfirmEmail/${token}>here</a> to confirm you email</p>`
           };
           transporter.sendMail(mailOptions, (error, info) => {
@@ -112,19 +112,17 @@ class UserController {
             async (err, result) => {
               if (err) {
                 return res.status(401).json({
-                  message: "Auth Faild"
+                  message: "Login Faild"
                 });
               }
               if (result) {
                 let token = generateToken(24);
                 let userId = user.id;
-                await accessTokenFacade.create({
+                const pToken = await accessTokenFacade.create({
                   token,
                   userId
                 });
-                return res.status(200).json({
-                  message: "Auth Sucessfull"
-                });
+                return res.send(pToken);
               }
             }
           );
@@ -136,5 +134,29 @@ class UserController {
       return next(e);
     }
   }
+
+  async profile(token, res, next) {
+    let userData, auth;
+    try {
+      auth = await accessTokenFacade.findTempToken({
+        where: { token: token }
+      });
+      if (auth === null) {
+        res.send("wrong Token");
+      } else {
+        userData = await userFacade.profile({
+          where: { id: auth.userId }
+        });
+        if (userData) {
+          return userData;
+        } else {
+          return "token Expire Please login again";
+        }
+      }
+    } catch (e) {
+      return next();
+    }
+  }
 }
+
 module.exports = new UserController(userFacade);
