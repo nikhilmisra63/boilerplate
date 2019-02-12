@@ -19,6 +19,9 @@ const accessToken = {
   userId: {
     type: Sequelize.BIGINT,
     allowNull: false
+  },
+  ttl: {
+    type: Sequelize.INTEGER
   }
 };
 
