@@ -1,25 +1,15 @@
 const userFacade = require("./facade");
 const accessTokenFacade = require("../accessTokens/facade");
 const uid = require("uid2");
-const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
 const authUtils = require("../../utils/auth");
+const emailService = require("../../utils/email");
 
 function generateToken(number) {
   return uid(number);
 }
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.ethereal.email",
-  port: 587,
-  auth: {
-    user: "ysdaassgfyrxa5x7@ethereal.email",
-    pass: "m6p1wwTcva5DSPBbzp"
-  },
-  tlsl: { rejectUnauthorized: false }
-});
-
 class UserController {
+  //SignUp
   async signUp(req, res, next) {
     let user;
     let {
@@ -37,7 +27,6 @@ class UserController {
       return next(error);
     }
     const hashedPassword = await authUtils.hashPassword(plainPassword);
-
     let password = hashedPassword;
     try {
       user = await userFacade.signUp({
@@ -55,25 +44,14 @@ class UserController {
         token,
         userId
       });
-      const mailOptions = {
-        from: "<ysdaassgfyrxa5x7@ethereal.email>",
-        to: user.email,
-        subject: `Email Verfication${token}`,
-        text: `Verfication Token ${token}`,
-        html: `<p>Click <a href=http://localhost:4000/User/ConfirmEmail/${token}>here</a> to confirm you email</p>`
-      };
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          return console.log(error);
-        }
-        console.log(info);
-      });
+      await emailService.signUpEmail(user, token);
     } catch (e) {
       return next(e);
     }
     res.send(user);
   }
 
+  // Email Verfication
   async emailVerfication(req, res, next) {
     let email_status = true;
     try {
@@ -104,7 +82,7 @@ class UserController {
       .end();
   }
 
-  //login
+  //Login
   async login(req, res, next) {
     let user;
     try {
@@ -140,7 +118,7 @@ class UserController {
     }
   }
 
-  async profile(token, res, next) {
+  async isAuthenticated(token, res, next) {
     let auth;
     try {
       auth = await accessTokenFacade.findTempToken({
@@ -150,15 +128,6 @@ class UserController {
         return null;
       } else {
         return "Authenticated";
-
-        // userData = await userFacade.profile({
-        //   where: { id: auth.userId }
-        // });
-        // if (userData) {
-        //   return userData;
-        // } else {
-        //   return "token Expire Please login again";
-        // }
       }
     } catch (e) {
       return next();
@@ -168,9 +137,22 @@ class UserController {
     let user, id;
     id = req.headers["id"];
     try {
-      user = await userFacade.profile({
+      user = await userFacade.findById({
         where: { id }
       });
+    } catch (e) {
+      return next(e);
+    }
+    res.send(user);
+  }
+  async forgotPassword(req, res, next) {
+    let user, hashedPassword, password;
+    let email = req.body.email;
+    try {
+      await emailService.forgotPasswordEmail(email);
+      hashedPassword = await authUtils.hashPassword(plainPassword);
+      password = hashedPassword;
+      user = await userFacade.Update({ password }, { where: { email } });
     } catch (e) {
       return next(e);
     }

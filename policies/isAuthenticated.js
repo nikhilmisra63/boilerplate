@@ -4,7 +4,7 @@ module.exports = async function(req, res, next) {
   const userId = req.headers["userId"];
   const userToken = req.headers["authorization"];
   if (typeof userToken !== "undefined") {
-    const user = await controller.profile(userToken, res, next);
+    const user = await controller.isAuthenticated(userToken, res, next);
     if (user === null) {
       return res
         .status(401)

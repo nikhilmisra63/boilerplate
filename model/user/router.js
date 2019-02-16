@@ -14,5 +14,8 @@ router
   .get(authUtils.runPolicies.bind(["isAuthenticated"]), (...args) =>
     controller.me(...args)
   );
+router
+  .route("/Login/forgotPassword")
+  .get((...args) => controller.forgotPassword(...args));
 
 module.exports = router;

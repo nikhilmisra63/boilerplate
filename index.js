@@ -16,9 +16,7 @@ app.use(morgan("tiny"));
 
 const db = config.get("db");
 global.sequelize = new Sequelize(db.database, null, null, db.setting);
-
-const options = {};
-if (process.env.NODE_ENV === "test") options.force = true;
+const routes = require("./routes");
 const startApp = async () => {
   app.use("/", routes);
   app.use("/explorer", express.static(path.join(__dirname, "swagger")));
@@ -29,7 +27,7 @@ const startApp = async () => {
 console.log("starting app.....");
 serverUtils.boot(app).then(
   () => {
-    console.log(`Starting index.js - starting app from last else`);
+    console.log(`Starting Server.....`);
     startApp();
   },
   err => {

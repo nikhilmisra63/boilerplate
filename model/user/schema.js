@@ -47,9 +47,12 @@ const userSchema = sequelize.define("user", user, {
   freezeTableName: true
 });
 
+// associations
 module.exports = userSchema;
 const accessTokenSchema = require("../accessTokens/schema");
 userSchema.hasMany(accessTokenSchema, { as: "token", sourceKey: "id" });
+
+// to remove password every time
 userSchema.prototype.toJSON = function() {
   var user = this.dataValues;
   delete user.password;

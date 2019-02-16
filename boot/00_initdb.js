@@ -2,6 +2,7 @@ const Umzug = require("umzug");
 const Sequelize = require("sequelize");
 const _ = require("lodash");
 const Promise = require("bluebird");
+
 const options = {};
 if (process.env.NODE_ENV === "test") options.force = true;
 

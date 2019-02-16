@@ -1,6 +1,6 @@
 const Promise = require("bluebird");
 const fs = Promise.promisifyAll(require("fs"));
-const config = require("config");
+
 
 module.exports = {
   boot: app =>

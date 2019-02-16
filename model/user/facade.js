@@ -34,17 +34,17 @@ class userFacade extends Facade {
         });
     });
   }
-  profile(where) {
-    return new Promise((res, rej) => {
-      this.Schema.findOne(where)
-        .then(result => {
-          return res(result);
-        })
-        .catch(e => {
-          return rej(e);
-        });
-    });
-  }
+  // profile(where) {
+  //   return new Promise((res, rej) => {
+  //     this.Schema.findOne(where)
+  //       .then(result => {
+  //         return res(result);
+  //       })
+  //       .catch(e => {
+  //         return rej(e);
+  //       });
+  //   });
+  // }
 }
 
 module.exports = new userFacade(userSchema);
