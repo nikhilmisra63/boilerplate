@@ -103,7 +103,7 @@
       "put": {
         "tags": ["pet"],
         "summary": "Update pet",
-        "description": "This can only be done by the logged in user.",
+        "description": "This can only be done by the logged in customer.",
         "operationId": "updatePetById",
         "produces": ["application/xml", "application/json"],
         "parameters": [
@@ -198,7 +198,7 @@
       "put": {
         "tags": ["pet"],
         "summary": "Updated pet by name",
-        "description": "This can only be done by the logged in user.",
+        "description": "This can only be done by the logged in customer.",
         "operationId": "updatePetByName",
         "produces": ["application/xml", "application/json"],
         "parameters": [
@@ -231,7 +231,7 @@
       "delete": {
         "tags": ["pet"],
         "summary": "Delete pet by name",
-        "description": "This can only be done by the logged in user.",
+        "description": "This can only be done by the logged in customer.",
         "operationId": "deletePetByName",
         "produces": ["application/xml", "application/json"],
         "parameters": [
@@ -253,12 +253,12 @@
         }
       }
     },
-    "/Pets/User": {
+    "/Pets/Customer": {
       "get": {
         "tags": ["pet"],
-        "summary": "show all pets with User",
-        "description": "it will show all the users present in the db",
-        "operationId": "getAllPetWithUser",
+        "summary": "show all pets with Customer",
+        "description": "it will show all the Customers present in the db",
+        "operationId": "getAllPetWithCustomer",
         "produces": ["application/xml", "application/json"],
         "responses": {
           "200": {
@@ -273,12 +273,12 @@
         }
       }
     },
-    "/Pets/User/{petId}": {
+    "/Pets/Customer/{petId}": {
       "get": {
         "tags": ["pet"],
-        "summary": "Find pet by ID With It's User",
+        "summary": "Find pet by ID With It's Customer",
         "description": "Returns a single pet",
-        "operationId": "getPetByIdWithUser",
+        "operationId": "getPetByIdWithCustomer",
         "produces": ["application/xml", "application/json"],
         "parameters": [
           {
@@ -311,18 +311,27 @@
         ]
       }
     },
-    "/Users": {
+    "/Customers": {
       "get": {
-        "tags": ["user"],
-        "summary": "show all user",
-        "description": "it will show all the users present in the db",
-        "operationId": "getAllUser",
+        "tags": ["customer"],
+        "summary": "show all customer",
+        "description": "it will show all the Customers present in the db",
+        "operationId": "getAllCustomer",
         "produces": ["application/xml", "application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Token of logged customer must be send",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Customer"
             }
           },
           "404": {
@@ -331,19 +340,26 @@
         }
       },
       "post": {
-        "tags": ["user"],
-        "summary": "Create user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "createUser",
+        "tags": ["customer"],
+        "summary": "Create customer",
+        "description": "This can only be done by the logged in customer.",
+        "operationId": "createCustomer",
         "produces": ["application/xml", "application/json"],
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "description": "Token of logged customer must be send",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
-            "description": "Created user object",
+            "description": "Created customer object",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Customer"
             }
           }
         ],
@@ -354,18 +370,25 @@
         }
       }
     },
-    "/Users/{userId}": {
+    "/Customers/{customerId}": {
       "get": {
-        "tags": ["user"],
-        "summary": "Find User by ID",
-        "description": "Returns a single user",
-        "operationId": "getUserById",
+        "tags": ["customer"],
+        "summary": "Find Customer by ID",
+        "description": "Returns a single customer",
+        "operationId": "getCustomerById",
         "produces": ["application/xml", "application/json"],
         "parameters": [
           {
-            "name": "userId",
+            "name": "authorization",
+            "in": "header",
+            "description": "Token of logged customer must be send",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "customerId",
             "in": "path",
-            "description": "ID of User to return",
+            "description": "ID of Customer to return",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -375,14 +398,14 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Customer"
             }
           },
           "400": {
             "description": "Invalid ID supplied"
           },
           "404": {
-            "description": "User not found"
+            "description": "Customer not found"
           }
         },
         "security": [
@@ -392,16 +415,23 @@
         ]
       },
       "put": {
-        "tags": ["user"],
-        "summary": "Updated user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "updateUser",
+        "tags": ["customer"],
+        "summary": "Updated customer",
+        "description": "This can only be done by the logged in customer.",
+        "operationId": "updateCustomer",
         "produces": ["application/xml", "application/json"],
         "parameters": [
           {
-            "name": "userId",
+            "name": "authorization",
+            "in": "header",
+            "description": "Token of logged customer must be send",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "customerId",
             "in": "path",
-            "description": "User ID of that need to be update",
+            "description": "Customer ID of that need to be update",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -409,33 +439,40 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Updated user object",
+            "description": "Updated customer object",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Customer"
             }
           }
         ],
         "responses": {
           "400": {
-            "description": "Invalid user supplied"
+            "description": "Invalid customer supplied"
           },
           "404": {
-            "description": "User not found"
+            "description": "Customer not found"
           }
         }
       },
       "delete": {
-        "tags": ["user"],
-        "summary": "Deletes a user",
+        "tags": ["customer"],
+        "summary": "Deletes a customer",
         "description": "",
-        "operationId": "deleteUser",
+        "operationId": "deleteCustomer",
         "produces": ["application/xml", "application/json"],
         "parameters": [
           {
-            "name": "userId",
+            "name": "authorization",
+            "in": "header",
+            "description": "Token of logged customer must be send",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "customerId",
             "in": "path",
-            "description": "user id to delete",
+            "description": "customer id to delete",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -446,28 +483,35 @@
             "description": "Invalid ID supplied"
           },
           "404": {
-            "description": "user not found"
+            "description": "customer not found"
           }
         },
         "security": [
           {
-            "petstore_auth": ["write:user", "read:user"]
+            "petstore_auth": ["write:customer", "read:customer"]
           }
         ]
       }
     },
-    "/Users/UserName/{username}": {
+    "/Customers/CustomerName/{customername}": {
       "get": {
-        "tags": ["user"],
-        "summary": "Get user by username",
+        "tags": ["customer"],
+        "summary": "Get customer by customername",
         "description": "",
-        "operationId": "getUserByName",
+        "operationId": "getCustomerByName",
         "produces": ["application/xml", "application/json"],
         "parameters": [
           {
-            "name": "username",
+            "name": "authorization",
+            "in": "header",
+            "description": "Token of logged customer must be send",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "customername",
             "in": "path",
-            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "description": "The name that needs to be fetched. Use customer1 for testing. ",
             "required": true,
             "type": "string"
           }
@@ -476,26 +520,33 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Customer"
             }
           },
           "400": {
-            "description": "Invalid username supplied"
+            "description": "Invalid customername supplied"
           },
           "404": {
-            "description": "User not found"
+            "description": "Customer not found"
           }
         }
       },
       "put": {
-        "tags": ["user"],
-        "summary": "Updated user by username",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "updateUserByUsername",
+        "tags": ["customer"],
+        "summary": "Updated customer by customername",
+        "description": "This can only be done by the logged in customer.",
+        "operationId": "updateCustomerByCustomername",
         "produces": ["application/xml", "application/json"],
         "parameters": [
           {
-            "name": "username",
+            "name": "authorization",
+            "in": "header",
+            "description": "Token of logged customer must be send",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "customername",
             "in": "path",
             "description": "name that need to be updated",
             "required": true,
@@ -504,31 +555,38 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Updated user object",
+            "description": "Updated customer object",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Customer"
             }
           }
         ],
         "responses": {
           "400": {
-            "description": "Invalid user supplied"
+            "description": "Invalid customer supplied"
           },
           "404": {
-            "description": "User not found"
+            "description": "Customer not found"
           }
         }
       },
       "delete": {
-        "tags": ["user"],
-        "summary": "Delete user by username",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "deleteUserByUserName",
+        "tags": ["customer"],
+        "summary": "Delete customer by customername",
+        "description": "This can only be done by the logged in customer.",
+        "operationId": "deleteCustomerByCustomerName",
         "produces": ["application/xml", "application/json"],
         "parameters": [
           {
-            "name": "username",
+            "name": "authorization",
+            "in": "header",
+            "description": "Token of logged customer must be send",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "customername",
             "in": "path",
             "description": "The name that needs to be deleted",
             "required": true,
@@ -537,46 +595,59 @@
         ],
         "responses": {
           "400": {
-            "description": "Invalid username supplied"
+            "description": "Invalid customername supplied"
           },
           "404": {
-            "description": "User not found"
+            "description": "Customer not found"
           }
         }
       }
     },
-    "/Users/Pets": {
+    "/Customers/Pets": {
       "get": {
-        "tags": ["user"],
-        "summary": "Get all users with his all pets",
-        "description": "it will show all the users present in the db",
-        "operationId": "getAllUserWithPets",
+        "tags": ["customer"],
+        "summary": "Get all Customers with his all pets",
+        "description": "it will show all the Customers present in the db",
+        "operationId": "getAllCustomerWithPets",
         "produces": ["application/xml", "application/json"],
+
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Customer"
             }
           },
           "404": {
             "description": "Url Not Found"
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": ["NODioRR4JOcMVYsZQJJRPeMb"]
+          }
+        ]
       }
     },
-    "/Users/Pets/{userId}": {
+    "/Customers/Pets/{customerId}": {
       "get": {
-        "tags": ["user"],
-        "summary": "Get User by ID with his pets",
-        "description": "Returns a single user with his all pets",
-        "operationId": "getUserByIdWithPets",
+        "tags": ["customer"],
+        "summary": "Get Customer by ID with his pets",
+        "description": "Returns a single customer with his all pets",
+        "operationId": "getCustomerByIdWithPets",
         "produces": ["application/xml", "application/json"],
         "parameters": [
           {
-            "name": "userId",
+            "name": "authorization",
+            "in": "header",
+            "description": "Token of logged customer must be send",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "customerId",
             "in": "path",
-            "description": "ID of User to return",
+            "description": "ID of Customer to return",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -586,19 +657,19 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Customer"
             }
           },
           "400": {
             "description": "Invalid ID supplied"
           },
           "404": {
-            "description": "User not found"
+            "description": "Customer not found"
           }
         },
         "security": [
           {
-            "api_key": []
+            "api_key": ["NODioRR4JOcMVYsZQJJRPeMb"]
           }
         ]
       }
@@ -621,14 +692,25 @@
     }
   },
   "definitions": {
-    "User": {
+    "AccessToken": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 255 },
+        "ttl": { "type": "integer", "format": "int32" },
+        "userId": { "type": "integer", "format": "int32" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "ttl", "userId", "createdAt", "updatedAt"]
+    },
+    "Customer": {
       "type": "object",
       "properties": {
         "id": {
           "type": "integer",
           "format": "int64"
         },
-        "username": {
+        "customername": {
           "type": "string"
         },
         "firstName": {
@@ -651,7 +733,7 @@
         }
       },
       "xml": {
-        "name": "User"
+        "name": "Customer"
       }
     },
     "Category": {
@@ -676,7 +758,7 @@
         "id": {
           "type": "integer",
           "format": "int64",
-          "$ref": "#/definitions/userId"
+          "$ref": "#/definitions/customerId"
         },
         "name": {
           "type": "string"
@@ -684,10 +766,10 @@
         "color": {
           "type": "string"
         },
-        "userId": {
+        "customerId": {
           "type": "integer",
           "format": "int64",
-          "$ref": "#/definitions/userId"
+          "$ref": "#/definitions/customerId"
         }
       },
       "xml": {

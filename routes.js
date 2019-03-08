@@ -16,7 +16,7 @@ router.use(
   authUtils.runPolicies.bind(["isAuthenticated"]),
   customer
 );
-router.use("/Pets", pets);
+router.use("/Pets",authUtils.runPolicies.bind(["isAuthenticated"]), pets);
 router.use("/User", user);
 router.use("/AccessToken", accessToken);
 

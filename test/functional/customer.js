@@ -15,7 +15,6 @@ describe("CUSTOMER", () => {
       .send(data)
       .expect(200);
     data.customerId = res.body.id;
-    console.log("asdfghjk");
   });
 
   it("Should be able to list all records", async () => {
@@ -53,7 +52,7 @@ describe("CUSTOMER", () => {
   });
   it("Should be able to update customer by name", async () => {
     await request
-      .get("/Customers/Name/")
+      .put("/Customers/Name/")
       .send(data)
       .expect(200);
   });
