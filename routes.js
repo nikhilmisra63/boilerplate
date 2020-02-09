@@ -6,7 +6,7 @@ const authUtils = require("./utils/auth");
 const customer = require("./model/customer/router");
 const pets = require("./model/pet/router");
 const user = require("./model/user/router");
-const accessToken = require("./model/accessTokens/router");
+const accessToken = require("./model/accessToken/router");
 
 router.route("/").get((req, res) => {
   res.json({ message: "Welcome to example-api API!" });

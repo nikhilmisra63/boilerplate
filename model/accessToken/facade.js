@@ -7,7 +7,6 @@ const Facade = require('../../lib/facade');
 const schema = require('./schema');
 const authUtils = require('../../utils/auth');
 
-const shardingUtils = require('../../utils/sharding');
 let memberFacade;
 const client = {
   // Needed by refresh_token grant, because there is a bug at line 103 in https://github.com/oauthjs/node-oauth2-server/blob/v3.0.1/lib/grant-types/refresh-token-grant-type.js (used client.id instead of client.clientId)
@@ -30,11 +29,10 @@ class AccessTokenFacade extends Facade {
       token.client = {
         id: client.clientId
       };
-      const shardId = member.sequelize.options.id;
       const memberId = member.id;
       const { accessToken, accessTokenExpiresAt, refreshToken, refreshTokenExpiresAt } = token;
       try {
-        await that.createWithShard(shardId, {
+        await that.create({
           accessToken,
           accessTokenExpiresAt,
           refreshToken,
@@ -53,14 +51,12 @@ class AccessTokenFacade extends Facade {
   }
 
   async getUser(token, grantType, password) {
-    memberFacade = require('../member/facade');
+    memberFacade = require('../customer/facade');
     return new Promise(async (resolve, reject) => {
       graph.setAccessToken(token);
       let fbRes;
       let googleRes;
       let member;
-      const shard = await shardingUtils.getShardID();
-      const shardId = Object.keys(shard)[0];
       switch (grantType) {
         case 'fb_auth':
           try {
@@ -81,15 +77,13 @@ class AccessTokenFacade extends Facade {
             try {
               const { name, email, gender } = fbRes;
               const fbId = fbRes.id;
-              member = await memberFacade.createWithShard(shardId, {
+              member = await memberFacade.create({
                 firstName: name,
                 email,
                 fbId,
                 gender,
                 emailStatus: 'verified'
               });
-              await shardingUtils.incrementUserCount(shardId);
-              await member.updateShardId();
             } catch (e) {
               const error = new Error(e.message);
               error.statusCode = error.code;
@@ -126,8 +120,7 @@ class AccessTokenFacade extends Facade {
               const googleId = googleRes.data.id;
               firstName = given_name === null ? name : given_name;
               lastName = family_name;
-              member = await memberFacade.createWithShard(
-                shardId,
+              member = await memberFacade.create(
                 {
                   firstName,
                   lastName,
@@ -138,8 +131,6 @@ class AccessTokenFacade extends Facade {
                 },
                 { logging: true }
               );
-              await shardingUtils.incrementUserCount(shardId);
-              await member.updateShardId();
             } catch (e) {
               const error = new Error(e.message);
               error.statusCode = error.code;
