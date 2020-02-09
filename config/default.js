@@ -15,8 +15,8 @@ module.exports = {
         bigNumbersStrings: true
       },
       replication: {
-        read: [{ host: "localhost", username: "root", password: "zxcvbnm" }],
-        write: { host: "localhost", username: "root", password: "zxcvbnm" }
+        read: [{ host: "localhost", username: "root", password: "pendrive" }],
+        write: { host: "localhost", username: "root", password: "pendrive" }
       },
       logging: console.log
     }

@@ -49,7 +49,7 @@ const userSchema = sequelize.define("user", user, {
 
 // associations
 module.exports = userSchema;
-const accessTokenSchema = require("../accessTokens/schema");
+const accessTokenSchema = require("../accessToken/schema");
 userSchema.hasMany(accessTokenSchema, { as: "token", sourceKey: "id" });
 
 // to remove password every time

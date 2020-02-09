@@ -1,5 +1,5 @@
 const userFacade = require("./facade");
-const accessTokenFacade = require("../accessTokens/facade");
+const accessTokenFacade = require("../accessToken/facade");
 const uid = require("uid2");
 const authUtils = require("../../utils/auth");
 const emailService = require("../../utils/email");
