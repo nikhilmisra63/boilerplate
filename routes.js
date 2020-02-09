@@ -1,5 +1,4 @@
 const Router = require("express").Router;
-const controller = require("./model/user/controller");
 const router = new Router();
 const authUtils = require("./utils/auth");
 
@@ -18,6 +17,6 @@ router.use(
 );
 router.use("/Pets",authUtils.runPolicies.bind(["isAuthenticated"]), pets);
 router.use("/User", user);
-router.use("/AccessToken", accessToken);
+router.use("/oAuth", accessToken);
 
 module.exports = router;

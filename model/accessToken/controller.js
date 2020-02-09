@@ -13,7 +13,6 @@ class AccessTokenController {
       .token(request, response)
       .then(async (token) => {
         token.memberId = token.user.id;
-        token.roles = await token.user.getRoles();
         delete token.client;
         delete token.user;
         res.json(token);

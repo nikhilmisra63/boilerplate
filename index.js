@@ -7,7 +7,7 @@ const config = require("config");
 const path = require("path");
 const serverUtils = require("./utils/serverUtils");
 
-const app = express();
+global.app = express();
 
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,6 +19,7 @@ global.sequelize = new Sequelize(db.database, null, null, db.setting);
 const routes = require("./routes");
 const startApp = async () => {
   app.use("/", routes);
+  require('./oAuth');
   app.use("/explorer", express.static(path.join(__dirname, "swagger")));
   app.listen(config.get("port"), () => {
     console.log(`Magic happens on port ${config.get("port")}`);

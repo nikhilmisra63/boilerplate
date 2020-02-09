@@ -21,5 +21,8 @@ module.exports = {
       logging: console.log
     }
   },
-  port: 3005
+  port: 3005,
+  accessTokenLifetime: 86400, // 1 hour
+  refreshTokenLifetime: 2592000, // 1 month
+  accessTokenLength: 64
 };
